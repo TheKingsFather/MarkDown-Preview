@@ -1,1 +1,1 @@
-# a markdown preview written in typescipt
+# a markdown preview written in typescript
