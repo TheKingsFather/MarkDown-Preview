@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import './index.css';
+import React, { useState, useEffect } from "react";
+import "./index.css";
 
-// We'll use the marked library from CDN
-declare const marked: any;
+//type declaration for window.marked
+declare global {
+  interface Window {
+    marked: {
+      setOptions: (options: any) => void;
+      parse: (markdown: string) => string;
+    };
+  }
+}
 
 const App: React.FC = () => {
-  const [markdown, setMarkdown] = useState(`# Welcome to my React Markdown Previewer!
+  const [markdown, setMarkdown] =
+    useState(`# Welcome to my React Markdown Previewer!
 
 ## This is a sub-heading...
 ### And here's some other cool stuff:
@@ -49,18 +57,19 @@ And here. | Okay. | I think we get it.
 
 ![freeCodeCamp Logo](https://cdn.freecodecamp.org/testable-projects-fcc/images/fcc_secondary.svg)`);
 
-  const [htmlContent, setHtmlContent] = useState('');
+  const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
     // Load marked library
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js';
+    const script = document.createElement("script");
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js";
     script.onload = () => {
       // Configure marked for GitHub flavored markdown
       if (window.marked) {
         window.marked.setOptions({
           breaks: true,
-          gfm: true
+          gfm: true,
         });
         setHtmlContent(window.marked.parse(markdown));
       }
@@ -97,16 +106,13 @@ And here. | Okay. | I think we get it.
             placeholder="Enter your markdown here..."
           />
         </div>
-        
+
         <div className="preview-container">
           <div className="toolbar">
             <i className="fa fa-free-code-camp" title="no-stack-dub-sack"></i>
             Previewer
           </div>
-          <div
-            id="preview"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
+          <div id="preview" dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
       </div>
     </div>
